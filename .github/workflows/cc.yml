@@ -1,0 +1,16 @@
+name: Bulk Delete Workflow Runs
+
+on:
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete all workflow runs
+        env:
+          GH_TOKEN: ${{ github.token }} 
+        run: |
+          gh api repos/${{ github.repository }}/actions/runs --paginate \
+            --jq '.workflow_runs[] | select(.status == "completed") | .id' \
+            | xargs -I {} gh api repos/${{ github.repository }}/actions/runs/{} -X DELETE
