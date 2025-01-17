@@ -12,6 +12,6 @@ jobs:
       - name: Delete old workflow runs
         uses: actions/delete-workflow-runs@v1
         with:
-          retain_days: 30 # 保留最近 30 天的记录
-          keep_minimum_runs: 10 # 至少保留 10 条记录
+          retain_days: 3 # 保留最近 30 天的记录
+          keep_minimum_runs: 5 # 至少保留 10 条记录
           token: ${{ secrets.GITHUB_TOKEN }}
