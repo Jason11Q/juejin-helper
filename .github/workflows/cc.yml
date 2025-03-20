@@ -2,7 +2,8 @@ name: Bulk Delete Workflow Runs
 
 on:
   workflow_dispatch: # 允许手动触发
-
+  schedule:
+    - cron: '0 0 * * 0'  # 每周日凌晨 00:00 自动执行
 jobs:
   cleanup:
     runs-on: ubuntu-latest
