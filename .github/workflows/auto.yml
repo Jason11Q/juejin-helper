@@ -31,8 +31,23 @@ jobs:
       - name: Run Project
         run: |
           cd workflows
-          yarn
-          yarn checkin
+          npm install
+      - name: Run Project with retry
+        id: run_project
+        continue-on-error: true
+        run: |
+          cd workflows
+          npm run checkin || exit 1
+      - name: Schedule retry if failed
+        if: steps.run_project.outcome == 'failure'
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 60
+          max_attempts: 2
+          command: |
+            cd workflows
+            npm run checkin
+          
 
 #  SeaGold:
 #    needs: CheckIn
