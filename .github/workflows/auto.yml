@@ -39,11 +39,11 @@ jobs:
           cd workflows
           npm run checkin || exit 1
       - name: Schedule retry if failed
-        if: steps.run_project.outcome == 'failure'
+        if: failure() && github.event_name != 'workflow_dispatch'
         uses: nick-fields/retry@v2
         with:
           timeout_minutes: 60
-          max_attempts: 2
+          max_attempts: 1
           command: |
             cd workflows
             npm run checkin
